@@ -21,47 +21,98 @@
 		}
 
 		#submit {
-			margin-top: 6px;
+		margin-left: 8px;
+		border: none;
+		padding: 4px 16px;
+		background: black;
+		color: white;
 		}
 
-		#ok {
+		#success, #error {
 			display: none;
+			font: .8rem 'Fira Sans', sans-serif;
+			align-items: center;
+		}
+
+		#error {color: #fe66ff;}
+
+		#loader {
+			display: none;
+			border: 4px solid #f3f3f3; /* Light grey */
+			border-top: 4px solid #3498db; /* Blue */
+			border-radius: 50%;
+			width: 16px;
+			height: 16px;
+			animation: spin 2s linear infinite;
+			margin-top FONT-VARIANT: JIS04;
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		#gogo {
+			display: flex;
+			padding: 6px 0;
 		}
 
 	</style>
 </head>
 <body>
-	<form>
+	<form action="" method="get" onsubmit="sendRange()">
 	<div>
 		<label for="start">Start date:</label>
-		<input type="date" id="start" name="mta-start" value="" min="2021-04-08" max="2021-04-16">
+		<input type="date" id="start" name="mta-start" value="" min="2021-04-08" max="2022-04-16">
 	</div>
 	<div>
 		<label for="start">End date:</label>
-		<input type="date" id="start" name="mta-end" value="" min="2021-04-08" max="2021-04-16">
+		<input type="date" id="end" name="mta-end" value="" min="2021-04-08" max="2022-04-16">
 	</div>
-	<button id="submit" value="">submit</button><div id="ok">Success!</div>
+	<div id="gogo">
+		<div id="loader"></div>
+		<div id="error">Error!</div>
+		<div id="success">Success!</div>
+		<button id="submit" value="">submit</button>
+	<div>	
 </body>
 	<script type="text/javascript">
-	
+
+	let date = new Date().toISOString().substr(0, 10);
+	console.log(date);
+
+	document.getElementById("start").value = date;
+	document.getElementById("end").value = date;
+
 	function sendRange() {
-  
+
+		event.preventDefault()
+
+		document.getElementById("loader").style.display = "block";
+		document.getElementById("success").style.display = "none";
+		document.getElementById("error").style.display = "none";
+
 		let startDate = document.querySelector('input[name=mta-start]').value;
 		let endDate = document.querySelector('input[name=mta-end]').value;
-		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&enddate=" + endDate;
+  		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&endate=" + endDate;
+		console.log(url)
 
 		let xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			document.getElementById("ok").display = "block";
+			if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("success").style.display = "flex";
+					document.getElementById("loader").style.display = "none";
+				}
+			else if (this.status == 500) {
+				document.getElementById("error").style.display = "flex";
+				document.getElementById("loader").style.display = "none";
 			}
 		};
 		xhttp.open("GET", url, true);
 		xhttp.send();
 		console.log(startDate + ' - ' + endDate);
-		console.log(url);
 	}
 
-	document.getElementById("submit").addEventListener("click", sendRange());
+	// document.getElementById("submit").addEventListener("click", sendRange());
 	</script>
 </html>
