@@ -4,8 +4,8 @@
 	<title></title>
 	<style>
 		
-		body, form, label, input { background: #333; color: white; }
-		form {display: flex;flex-direction: column;max-width: 210px;align-items: flex-end;}
+		body, form, label, input {background: #202125;color: white;}
+		form {display: flex;flex-direction: column;max-width: 210px;align-items: flex-end;width: 100%;}
 		form label {
 	    	/* display: block; */
 	    	font: .8rem 'Fira Sans', sans-serif;
@@ -13,6 +13,10 @@
 
 		form input {
 			border: 1px solid #999;
+			border-radius: 4px;
+			padding: 4px;
+			color: white;
+			width: 130px;
 		}
 
 		form input,
@@ -23,9 +27,11 @@
 		#submit {
 		margin-left: 8px;
 		border: none;
-		padding: 4px 16px;
-		background: black;
+		padding: 8px 24px;
+		background: #0072F0;
 		color: white;
+		border-radius: 4px;
+		width: 140px;
 		}
 
 		#success, #error {
@@ -33,6 +39,8 @@
 			font: .8rem 'Fira Sans', sans-serif;
 			align-items: center;
 		}
+
+		#success img { width: 20px; }
 
 		#error {color: #fe66ff;}
 
@@ -55,6 +63,9 @@
 		#gogo {
 			display: flex;
 			padding: 6px 0;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
 		}
 
 	</style>
@@ -72,8 +83,8 @@
 	<div id="gogo">
 		<div id="loader"></div>
 		<div id="error">Error!</div>
-		<div id="success">Success!</div>
-		<button id="submit" value="">submit</button>
+		<div id="success"><img src="check.png"></div>
+		<button id="submit" value="">Calculate</button>
 	<div>	
 </body>
 	<script type="text/javascript">
