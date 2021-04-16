@@ -28,6 +28,10 @@
 
 		.inputWrap {
 			margin: 0 8px;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
 		}
 
 		#submit {
@@ -83,11 +87,11 @@
 <body>
 	<form action="" method="get" onsubmit="sendRange()">
 	<div class="inputWrap">
-		<label for="start">Start date:</label>
+		<label for="start">Start date</label>
 		<input type="date" id="start" name="mta-start" value="" min="2021-04-08" max="2022-04-16">
 	</div>
 	<div class="inputWrap">
-		<label for="start">End date:</label>
+		<label for="start">End date</label>
 		<input type="date" id="end" name="mta-end" value="" min="2021-04-08" max="2022-04-16">
 	</div>
 	<div id="gogo">
