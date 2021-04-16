@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		
+		body, form, label, input { background: #333; color: white; }
+		form {display: flex;flex-direction: column;max-width: 210px;align-items: flex-end;}
+		form label {
+	    	/* display: block; */
+	    	font: .8rem 'Fira Sans', sans-serif;
+		}
+
+		form input {
+			border: 1px solid #999;
+		}
+
+		form input,
+		label {
+		    margin: .4rem 0 0 0;
+		}
+
+		#submit {
+			margin-top: 6px;
+		}
+
+		#ok {
+			display: none;
+		}
+
+	</style>
+</head>
+<body>
+	<form>
+	<div>
+		<label for="start">Start date:</label>
+		<input type="date" id="start" name="mta-start" value="" min="2021-04-08" max="2021-04-16">
+	</div>
+	<div>
+		<label for="start">End date:</label>
+		<input type="date" id="start" name="mta-end" value="" min="2021-04-08" max="2021-04-16">
+	</div>
+	<button id="submit" value="">submit</button><div id="ok">Success!</div>
+</body>
+	<script type="text/javascript">
+	
+	function sendRange() {
+  
+		let startDate = document.querySelector('input[name=mta-start]').value;
+		let endDate = document.querySelector('input[name=mta-end]').value;
+		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&enddate=" + endDate;
+
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			document.getElementById("ok").display = "block";
+			}
+		};
+		xhttp.open("GET", url, true);
+		xhttp.send();
+		console.log(startDate + ' - ' + endDate);
+		console.log(url);
+	}
+
+	document.getElementById("submit").addEventListener("click", sendRange());
+	</script>
+</html>
