@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>MTA</title>
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
 	<style>
 		html { height: 100%; }
-		body { margin: 0; padding: 0; overflow: hidden; height: 100%; }
+		body {
+			display: flex;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			height: 100%;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
 		body, form, label, input {background: #202125;color: white;align-items: center;display: flex;align-items: center;justify-content: center;}
-		form {display: flex;flex-direction: row;align-items: flex-end;width: 100%;}
+		form {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-end;
+			width: 100%;
+		}
 		form label {
 	    	/* display: block; */
 	    	font: .8rem 'Fira Sans', sans-serif;
@@ -83,72 +98,132 @@
 		::-webkit-datetime-edit-day-field { color: green; }
 		::-webkit-datetime-edit-year-field { color: purple; }
 		::-webkit-inner-spin-button { display: none; }*/
-		::-webkit-calendar-picker-indicator { color: #fff; }</style>
+		::-webkit-calendar-picker-indicator { color: #fff; }
+
+		#myPieChart { width: 100%; margin: 64px 0; }
+	</style>
 </head>
 <body>
 	<form action="" method="get" onsubmit="sendRange()">
-	<div class="inputWrap">
-		<label for="start">Start date</label>
-		<input type="date" id="start" name="mta-start" value="" min="2021-04-08" max="2022-04-16">
-	</div>
-	<div class="inputWrap">
-		<label for="start">End date</label>
-		<input type="date" id="end" name="mta-end" value="" min="2021-04-08" max="2022-04-16">
-	</div>
-	<div id="gogo">
-		<button id="submit" value="">
-			<span id="msg">Calculate</span>
-			<span id="loader"></span>
-			<span id="error">Error!</span>
-			<span id="success"><img src="check.png"></span>
-		</button>
-	<div>	
+		<div class="inputWrap">
+			<label for="start">Start date</label>
+			<input type="date" id="start" name="mta-start" value="" min="2021-04-08" max="2022-04-16">
+		</div>
+		<div class="inputWrap">
+			<label for="start">End date</label>
+			<input type="date" id="end" name="mta-end" value="" min="2021-04-08" max="2022-04-16">
+		</div>
+		<div id="gogo">
+			<button id="submit" value="">
+				<span id="msg">Calculate</span>
+				<span id="loader"></span>
+				<span id="error">Error!</span>
+				<span id="success"><img src="check.png"></span>
+			</button>
+		</div>
+	</form>
+	<div id="myPieChart"/>
 </body>
 	<script type="text/javascript">
 
-	let date = new Date().toISOString().substr(0, 10);
-	console.log(date);
+		let date = new Date().toISOString().substr(0, 10);
+		console.log(date);
 
-	document.getElementById("start").value = date;
-	document.getElementById("end").value = date;
+		document.getElementById("start").value = date;
+		document.getElementById("end").value = date;
 
-	function sendRange() {
+		function sendRange() {
 
-		event.preventDefault()
+			event.preventDefault();
 
-		document.getElementById("loader").style.display = "block";
-		document.getElementById("success").style.display = "none";
-		document.getElementById("error").style.display = "none";
+			if (typeof xhttp == 'undefined') {
 
-		let startDate = document.querySelector('input[name=mta-start]').value;
-		let endDate = document.querySelector('input[name=mta-end]').value;
-  		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&enddate=" + endDate;
-		console.log(url)
+				document.getElementById("loader").style.display = "block";
+				document.getElementById("success").style.display = "none";
+				document.getElementById("error").style.display = "none";
 
-		let xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("success").style.display = "flex";
-					document.getElementById("loader").style.display = "none";
-				}
-			else if (this.status == 500) {
-				document.getElementById("error").style.display = "flex";
-				document.getElementById("loader").style.display = "none";
+				let startDate = document.querySelector('input[name=mta-start]').value;
+				let endDate = document.querySelector('input[name=mta-end]').value;
+		  		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&enddate=" + endDate;
+				console.log(url);
+
+				let xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+							document.getElementById("success").style.display = "flex";
+							document.getElementById("loader").style.display = "none";
+							google.charts.load('current', {packages: ['corechart']});
+	    					google.charts.setOnLoadCallback(drawSheetName);
+						}
+					else if (this.status == 500) {
+						document.getElementById("error").style.display = "flex";
+						document.getElementById("loader").style.display = "none";
+					}
+				};
+				
+				xhttp.open("GET", url, true);
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhttp.send();
+				console.log(startDate + ' - ' + endDate);
 			}
-		};
-		xhttp.open("GET", url, true);
-		xhttp.send();
-		console.log(startDate + ' - ' + endDate);
-	}
 
-	let inputField = document.querySelectorAll('input[type="date"]');
+			else {
+				xhttp.abort();
+				console.log('aborting...');
+			}
+		}
 
-	inputField.forEach(element => {
-		element.addEventListener("click", function () {
-			document.getElementById("loader").style.display = "none";
-			document.getElementById("success").style.display = "none";
-			document.getElementById("error").style.display = "none";
-		})
-	});
+		let inputField = document.querySelectorAll('input[type="date"]');
+
+		inputField.forEach(element => {
+			element.addEventListener("click", function () {
+				document.getElementById("loader").style.display = "none";
+				document.getElementById("success").style.display = "none";
+				document.getElementById("error").style.display = "none";
+			})
+		});
+
+		// Google Charts
+
+	    function drawSheetName() {
+			var queryString = encodeURIComponent('SELECT A, B LIMIT 50 OFFSET 0');
+
+			// var query = new google.visualization.Query(
+			var query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium&headers=1&tq=' + queryString);
+			query.send(handleSampleDataQueryResponse);
+	    }
+
+	    function handleSampleDataQueryResponse(response) {
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+
+			var data = response.getDataTable();
+			var options = {
+				title: 'Touchpoint / Medium',
+				pieHole: 0.4,
+				height: 400
+			};
+			var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
+			chart.draw(data, options);
+	    }
+   //  	function drawChart() {
+			// // Define the chart to be drawn.
+			// var data = new google.visualization.DataTable();
+			// data.addColumn('string', 'Element');
+			// data.addColumn('number', 'Percentage');
+			// data.addRows([
+			// 	['Nitrogen', 0.78],
+			// 	['Oxygen', 0.21],
+			// 	['Other', 0.01]
+			// ]);
+
+			// // Instantiate and draw the chart.
+			// var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
+			// chart.draw(data, null);
+	  //   }
+
 	</script>
 </html>
