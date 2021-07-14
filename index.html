@@ -49,8 +49,14 @@
 		    padding: 64px;
 		    background: white;
 		    border-radius: 16px;
-		    transition: height 2s;
+		    transition: height .3s;
+		    transition-timing-function: ease-in-out;
+		    height: 200px;
 		}
+		#wrap:hover {
+			/*height: 240px;*/
+		}
+
 		form {
 			display: flex;
 			flex-direction: row;
@@ -153,8 +159,11 @@
 		a#gsheet {
 			font: .8rem 'Fira Sans', sans-serif !important;
 			margin: 16px 0 0 0;
-			/*opacity: 0.3;*/
-			display: none;
+			opacity: 0;
+			/*display: none;*/
+			transition: opacity .3s;
+			transition-timing-function: ease-in-out;
+			cursor: default;
 		}
 
 		#myPieChart { width: 100%; margin: 64px 0; display: none; }
@@ -162,7 +171,7 @@
 		select {
 			appearance: none;
             width: 148px;
-            height: 48px !important; 
+            min-height: 48px !important; 
             border: 1px solid #a9a9a9;
             border-radius: 32px;
             background: white;
@@ -237,7 +246,8 @@
 			document.getElementById('submit').removeAttribute('disabled');
 			document.getElementById("success").style.display = "none";
 			document.getElementById("error").style.display = "none";
-			document.getElementById("gsheet").style.display = "none";
+			document.getElementById("gsheet").style.opacity = "0";
+			document.getElementById("wrap").style.height = "200px";
 		})
 
 		function setPicker(e) {
@@ -245,8 +255,9 @@
 			picker.clearSelection();
 			document.getElementById("success").style.display = "none";
 			document.getElementById("error").style.display = "none";
-			document.getElementById("gsheet").style.display = "none";
+			document.getElementById("gsheet").style.opacity = "0";
 			document.getElementById('submit').disabled = true;
+			document.getElementById("wrap").style.height = "200px";
 
 			x = document.getElementById("selector").selectedIndex;
 	  		y = document.getElementById("selector").options;
@@ -321,8 +332,9 @@
 							document.getElementById("loader").style.display = "none";
 							google.charts.load('current', {packages: ['corechart']});
 	    					google.charts.setOnLoadCallback(drawSheetName);
-	    					document.getElementById("gsheet").style.display = "block";
+	    					document.getElementById("gsheet").style.opacity = "1";
 	    					document.getElementById('submit').disabled = false;
+	    					document.getElementById("wrap").style.height = "240px";
 						}
 					else if (this.status == 500) {
 						document.getElementById("error").style.display = "flex";
