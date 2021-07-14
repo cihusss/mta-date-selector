@@ -51,7 +51,7 @@
 		    border-radius: 16px;
 		    transition: height .3s;
 		    transition-timing-function: ease-in-out;
-		    height: 200px;
+		    height: 210px;
 		}
 		#wrap:hover {
 			/*height: 240px;*/
@@ -145,7 +145,7 @@
 		input#litepicker {
 		    width: 260px;
 		    border: 1px solid #999;
-		    height: 32px;
+		    min-height: 32px;
 		    padding: 16px;
 		    border-radius: 32px;
 		    text-align: center;
@@ -247,7 +247,7 @@
 			document.getElementById("success").style.display = "none";
 			document.getElementById("error").style.display = "none";
 			document.getElementById("gsheet").style.opacity = "0";
-			document.getElementById("wrap").style.height = "200px";
+			document.getElementById("wrap").style.height = "210px";
 		})
 
 		function setPicker(e) {
@@ -257,7 +257,7 @@
 			document.getElementById("error").style.display = "none";
 			document.getElementById("gsheet").style.opacity = "0";
 			document.getElementById('submit').disabled = true;
-			document.getElementById("wrap").style.height = "200px";
+			document.getElementById("wrap").style.height = "210px";
 
 			x = document.getElementById("selector").selectedIndex;
 	  		y = document.getElementById("selector").options;
