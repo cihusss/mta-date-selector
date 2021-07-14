@@ -49,6 +49,7 @@
 		    padding: 64px;
 		    background: white;
 		    border-radius: 16px;
+		    transition: height 2s;
 		}
 		form {
 			display: flex;
@@ -152,7 +153,8 @@
 		a#gsheet {
 			font: .8rem 'Fira Sans', sans-serif !important;
 			margin: 16px 0 0 0;
-			opacity: 0.3;
+			/*opacity: 0.3;*/
+			display: none;
 		}
 
 		#myPieChart { width: 100%; margin: 64px 0; display: none; }
@@ -189,8 +191,8 @@
 	<div class="logo">Bisk<span class="blue">MTA</span></div>
 	<div id="wrap">
 		<select name="University" id="selector" onchange="setPicker()">
-			<option value="59519920" user="3" journey="4" mindate="2021-04-01">MSU</option>
-			<option value="440474" user="6" journey="7" mindate="2021-07-14">Villanova</option>
+			<option value="59519920" user="3" journey="4" mindate="2021-04-01">MSU.com</option>
+			<option value="440474" user="6" journey="7" mindate="2021-07-14">Villanovau.com</option>
 		</select>
 		<input id="litepicker" placeholder="Select a Date Range">
 		<button id="submit" onclick="sendRange()" disabled>
@@ -235,6 +237,7 @@
 			document.getElementById('submit').removeAttribute('disabled');
 			document.getElementById("success").style.display = "none";
 			document.getElementById("error").style.display = "none";
+			document.getElementById("gsheet").style.display = "none";
 		})
 
 		function setPicker(e) {
@@ -242,7 +245,8 @@
 			picker.clearSelection();
 			document.getElementById("success").style.display = "none";
 			document.getElementById("error").style.display = "none";
-			document.getElementById("gsheet").style.opacity = "0.3";
+			document.getElementById("gsheet").style.display = "none";
+			document.getElementById('submit').disabled = true;
 
 			x = document.getElementById("selector").selectedIndex;
 	  		y = document.getElementById("selector").options;
@@ -317,7 +321,7 @@
 							document.getElementById("loader").style.display = "none";
 							google.charts.load('current', {packages: ['corechart']});
 	    					google.charts.setOnLoadCallback(drawSheetName);
-	    					document.getElementById("gsheet").style.opacity = "1";
+	    					document.getElementById("gsheet").style.display = "block";
 	    					document.getElementById('submit').disabled = false;
 						}
 					else if (this.status == 500) {
