@@ -155,9 +155,9 @@
 			</button>
 		</div>
 	</form> -->
-	<select name="University" id="selector">
-		<option value="59519920">MSU</option>
-		<option value="440474" disabled>Villanova</option>
+	<select name="University" id="selector" onchange="setPicker()">
+		<option value="59519920" user="3" journey="4" mindate="2021-04-01">MSU</option>
+		<option value="440474" user="6" journey="7" mindate="2021-07-14">Villanova</option>
 	</select>
 	<input id="litepicker" placeholder="Pick a Date Range">
 	<button id="submit" onclick="sendRange()" disabled>
@@ -174,6 +174,11 @@
 	<script type="text/javascript">
 
 		let date = new Date().toISOString().substr(0, 10);
+		let x = document.getElementById("selector").selectedIndex;
+  		let y = document.getElementById("selector").options;
+		let mindate = y[x].getAttribute("mindate");
+
+		// console.log(date);
 
 		const picker = new Litepicker({ 
 			element: document.getElementById('litepicker'),
@@ -181,7 +186,7 @@
 			numberOfMonths: 1,
 			maxDays: 10,
 			numberOfColumns: 1,
-			minDate: '2021-04-01',
+			minDate: mindate,
 			maxDate: date
 		});
 
@@ -191,15 +196,26 @@
 			document.getElementById('submit').removeAttribute('disabled');
 		})
 
-		// document.getElementById("start").value = date;
-		// document.getElementById("end").value = date;
+		function setPicker(e) {
+
+			picker.clearSelection();
+			document.getElementById("success").style.display = "none";
+			document.getElementById("error").style.display = "none";
+			document.getElementById("gsheet").style.opacity = "0";
+
+			x = document.getElementById("selector").selectedIndex;
+	  		y = document.getElementById("selector").options;
+			mindate = y[x].getAttribute("mindate");
+			console.log(mindate);
+
+			picker.setOptions({
+				minDate: mindate
+			})
+		}
 
 		function sendRange() {
 
 			event.preventDefault();
-
-			// let blah = picker.getStartDate();
-			// console.log(blah.dateInstance.toISOString().split('T')[0]);
 
 			if (typeof xhttp == 'undefined') {
 
@@ -209,14 +225,47 @@
 
 				let startDate = picker.getStartDate();
 				startDate = startDate.dateInstance.toISOString().split('T')[0];
+				// firstwo = parseInt(startDate.slice(-2)) + 1;
+				// console.log('firstwo: ' + firstwo);
+				
+				// if (firstwo == 31) {
+				// 	firstwo = 1;
+				// }
+				// else {
+
+				// }
+
+				// if (firstwo > 9) {
+				// 	console.log("two");
+				// 	startDate = startDate.substring(0, startDate.length - 2) + firstwo;
+				// }
+				// else {
+				// 	console.log("one");
+				// 	startDate = startDate.substring(0, startDate.length - 2) + "0" + firstwo;
+				// }
+				// console.log(startDate);
+
 				let endDate = picker.getEndDate();
 				endDate = endDate.dateInstance.toISOString().split('T')[0];
-				var x = document.getElementById("selector").selectedIndex;
-  				var y = document.getElementById("selector").options;
-  				// alert("Index: " + y[x].index + " is " + y[x].text);
+				// lastwo = parseInt(endDate.slice(-2)) + 1;
+				// if (lastwo > 9) {
+				// 	console.log("two");
+				// 	endDate = endDate.substring(0, endDate.length - 2) + lastwo;
+				// }
+				// else {
+				// 	console.log("one");
+				// 	endDate = endDate.substring(0, endDate.length - 2) + "0" + lastwo;
+				// }
+				
+				x = document.getElementById("selector").selectedIndex;
+  				y = document.getElementById("selector").options;
 				viewID = y[x].value;
+				userID = y[x].getAttribute("user");
+				journeyID = y[x].getAttribute("journey");
 				console.log(viewID);
-		  		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&enddate=" + endDate + '&viewid=' + viewID;
+				console.log(userID);
+				console.log(journeyID);
+		  		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&enddate=" + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID;
 				console.log(url);
 
 				let xhttp = new XMLHttpRequest();
