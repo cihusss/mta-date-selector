@@ -2,6 +2,9 @@
 <html>
 <head>
 	<title>MTA</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
 	<script src="https://www.gstatic.com/charts/loader.js"></script>
 	<style>
 		html { height: 100%; }
@@ -22,6 +25,19 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+		}
+		.logo {
+			position: absolute;
+			top: 0;
+			right: 0;
+			padding: 32px;
+			font-family: 'Audiowide', cursive;
+			font-size: 24px;
+		}
+		.blue {
+			color: #0072F0;
+			font-size: 32px;
+			padding-left: 1px;
 		}
 		form {
 			display: flex;
@@ -137,6 +153,7 @@
 	</style>
 </head>
 <body>
+	<div class="logo">Bisk<span class="blue">MTA</span></div>
 	<!-- <form action="" method="get" onsubmit="sendRange()">
 		<div class="inputWrap">
 			<label for="start">Start date</label>
