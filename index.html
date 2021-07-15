@@ -70,7 +70,7 @@
 		}
 
 		form input {
-			border: 1px solid #999;
+			border: 1px solid #cacaca;
 			border-radius: 4px;
 			padding: 4px;
 			color: #000;
@@ -151,7 +151,7 @@
 
 		input#litepicker {
 		    width: 260px;
-		    border: 1px solid #999;
+		    border: 1px solid #cacaca;
 		    min-height: 32px;
 		    padding: 16px;
 		    border-radius: 32px;
@@ -179,7 +179,7 @@
 			appearance: none;
             width: 148px;
             min-height: 48px !important; 
-            border: 1px solid #a9a9a9;
+            border: 1px solid #cacaca;
             border-radius: 32px;
             background: white;
             background-image:
@@ -290,6 +290,7 @@
 				document.getElementById("error").style.display = "none";
 
 				let startDate = picker.getStartDate();
+				console.log(startDate);
 				startDate = startDate.dateInstance.toISOString().split('T')[0];
 				// firstwo = parseInt(startDate.slice(-2)) + 1;
 				// console.log('firstwo: ' + firstwo);
