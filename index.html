@@ -48,7 +48,7 @@
 		    align-items: center;
 		    padding: 64px;
 		    background: white;
-		    border-radius: 16px;
+		    border-radius: 32px 0;
 		    transition: height .3s;
 		    transition-timing-function: ease-in-out;
 		    height: 210px;
@@ -92,7 +92,7 @@
 		}
 
 		#submit {
-			 margin-top: 24px; 
+			margin-top: 24px; 
 			border: none;
 			padding: 24px;
 			background: #0072F0;
@@ -104,10 +104,16 @@
 			justify-content: center;
 			flex-direction: row;
 			max-height: 31px;
+			transition: all 0.3s;
 		}
 
-		#submit:focus {outline: 0;}
-		#submit:disabled { opacity: 0.5; }
+		#submit:focus {
+			outline: 0;
+		}
+
+		#submit:disabled {
+			opacity: 0.5;
+		}
 
 		#success, #error {
 			display: none;
