@@ -3,6 +3,8 @@
 <head>
 	<title>MTA</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
@@ -121,17 +123,18 @@
 			display: none;
 			font: .8rem 'Fira Sans', sans-serif;
 			align-items: center;
-			margin: 0 0 0 8px;
 			white-space: nowrap;
 		}
 
-		#error {
-			margin: 0;
+		#success {
+			color: #67fde9;
 		}
 
 		#success img {width: 17px;margin-left: -8px;}
 
-		#error {color: #fe66ff;}
+		#error {
+			color: #feabff;
+		}
 
 		#msg {padding-right: 8px;padding-left: 8px;}
 
@@ -223,8 +226,8 @@
 		<button id="submit" onclick="sendRange()" disabled>
 			<span id="msg">Compute</span>
 			<span id="loader"></span>
-			<span id="error">no data</span>
-			<span id="success"><img src="check.png"></span>
+			<span id="error"><span class="material-icons">error_outline</span></span>
+			<span id="success"><span class="material-icons">check_circle</span></span>
 		</button>
 		<a id="gsheet" href="https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/edit?usp=sharing" target="_blank">Google Sheet Output</a>
 	</div>
