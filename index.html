@@ -121,6 +121,11 @@
 			font: .8rem 'Fira Sans', sans-serif;
 			align-items: center;
 			margin: 0 0 0 8px;
+			white-space: nowrap;
+		}
+
+		#error {
+			margin: 0;
 		}
 
 		#success img {width: 17px;margin-left: -8px;}
@@ -210,14 +215,14 @@
 		<select name="University" id="selector" onchange="setPicker()">
 			<option value="59519920" user="3" journey="4" mindate="2021-04-01">MSU.com</option>
 			<option value="440474" user="6" journey="7" mindate="2021-07-14">VU.com</option>
-			<option value="" user="" journey="" mindate="" disabled>USF.com</option>
-			<option value="" user="" journey="" mindate="" disabled>FT.com</option>
+			<option value="78730995" user="3" journey="4" mindate="2021-07-29">USF.com</option>
+			<option value="676455" user="5" journey="6" mindate="2021-07-29">FT.com</option>
 		</select>
 		<input id="litepicker" placeholder="Select a Date Range">
 		<button id="submit" onclick="sendRange()" disabled>
 			<span id="msg">Compute</span>
 			<span id="loader"></span>
-			<span id="error">Error!</span>
+			<span id="error">no data</span>
 			<span id="success"><img src="check.png"></span>
 		</button>
 		<a id="gsheet" href="https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/edit?usp=sharing" target="_blank">Google Sheet Output</a>
@@ -293,38 +298,10 @@
 				let startDate = picker.getStartDate();
 				console.log(startDate);
 				startDate = startDate.dateInstance.toISOString().split('T')[0];
-				// firstwo = parseInt(startDate.slice(-2)) + 1;
-				// console.log('firstwo: ' + firstwo);
-				
-				// if (firstwo == 31) {
-				// 	firstwo = 1;
-				// }
-				// else {
-
-				// }
-
-				// if (firstwo > 9) {
-				// 	console.log("two");
-				// 	startDate = startDate.substring(0, startDate.length - 2) + firstwo;
-				// }
-				// else {
-				// 	console.log("one");
-				// 	startDate = startDate.substring(0, startDate.length - 2) + "0" + firstwo;
-				// }
-				// console.log(startDate);
 
 				let endDate = picker.getEndDate();
 				endDate = endDate.dateInstance.toISOString().split('T')[0];
-				// lastwo = parseInt(endDate.slice(-2)) + 1;
-				// if (lastwo > 9) {
-				// 	console.log("two");
-				// 	endDate = endDate.substring(0, endDate.length - 2) + lastwo;
-				// }
-				// else {
-				// 	console.log("one");
-				// 	endDate = endDate.substring(0, endDate.length - 2) + "0" + lastwo;
-				// }
-				
+
 				x = document.getElementById("selector").selectedIndex;
   				y = document.getElementById("selector").options;
 				viewID = y[x].value;
@@ -350,6 +327,7 @@
 					else if (this.status == 500) {
 						document.getElementById("error").style.display = "flex";
 						document.getElementById("loader").style.display = "none";
+						document.getElementById('submit').disabled = false;
 					}
 				};
 				
