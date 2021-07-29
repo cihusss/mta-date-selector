@@ -234,9 +234,9 @@
 	<script type="text/javascript">
 
 		let date = new Date().toISOString().substr(0, 10);
-		let x = document.getElementById("selector").selectedIndex;
-  		let y = document.getElementById("selector").options;
-		let mindate = y[x].getAttribute("mindate");
+		let x = document.getElementById('selector').selectedIndex;
+  		let y = document.getElementById('selector').options;
+		let mindate = y[x].getAttribute('mindate');
 
 		// console.log(date);
 
@@ -253,30 +253,30 @@
 		picker.setDate(date);
 
 		picker.on('change:month', (date, calendarIdx) => {
-			console.log("change!!")
+			console.log('change!!')
 			document.getElementById("success").style.display = "none";
 		});
 
-		document.getElementById('litepicker').addEventListener('click', function() {
+		document.getElementById('litepicker').addEventListener('click', (e) => {
 			document.getElementById('submit').removeAttribute('disabled');
-			document.getElementById("success").style.display = "none";
-			document.getElementById("error").style.display = "none";
-			document.getElementById("gsheet").style.opacity = "0";
-			document.getElementById("wrap").style.height = "210px";
+			document.getElementById('success').style.display = 'none';
+			document.getElementById('error').style.display = 'none';
+			document.getElementById('gsheet').style.opacity = '0';
+			document.getElementById('wrap').style.height = '210px';
 		})
 
-		function setPicker(e) {
+		setPicker = (e) => {
 
 			picker.clearSelection();
-			document.getElementById("success").style.display = "none";
-			document.getElementById("error").style.display = "none";
-			document.getElementById("gsheet").style.opacity = "0";
+			document.getElementById('success').style.display = 'none';
+			document.getElementById('error').style.display = 'none';
+			document.getElementById('gsheet').style.opacity = '0';
 			document.getElementById('submit').disabled = true;
-			document.getElementById("wrap").style.height = "210px";
+			document.getElementById('wrap').style.height = '210px';
 
-			x = document.getElementById("selector").selectedIndex;
-	  		y = document.getElementById("selector").options;
-			mindate = y[x].getAttribute("mindate");
+			x = document.getElementById('selector').selectedIndex;
+	  		y = document.getElementById('selector').options;
+			mindate = y[x].getAttribute('mindate');
 			console.log(mindate);
 
 			picker.setOptions({
@@ -284,16 +284,16 @@
 			})
 		}
 
-		function sendRange() {
+		sendRange = () => {
 
 			event.preventDefault();
 			document.getElementById('submit').disabled = true;
 
 			if (typeof xhttp == 'undefined') {
 
-				document.getElementById("loader").style.display = "block";
-				document.getElementById("success").style.display = "none";
-				document.getElementById("error").style.display = "none";
+				document.getElementById('loader').style.display = 'block';
+				document.getElementById('success').style.display = 'none';
+				document.getElementById('error').style.display = 'none';
 
 				let startDate = picker.getStartDate();
 				console.log(startDate);
@@ -302,37 +302,37 @@
 				let endDate = picker.getEndDate();
 				endDate = endDate.dateInstance.toISOString().split('T')[0];
 
-				x = document.getElementById("selector").selectedIndex;
-  				y = document.getElementById("selector").options;
+				x = document.getElementById('selector').selectedIndex;
+  				y = document.getElementById('selector').options;
 				viewID = y[x].value;
-				userID = y[x].getAttribute("user");
-				journeyID = y[x].getAttribute("journey");
+				userID = y[x].getAttribute('user');
+				journeyID = y[x].getAttribute('journey');
 				console.log(viewID);
 				console.log(userID);
 				console.log(journeyID);
-		  		let url = "https://mta-y2u6oyxxua-ue.a.run.app/?startdate=" + startDate + "&enddate=" + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID;
+		  		let url = 'https://mta-y2u6oyxxua-ue.a.run.app/?startdate=' + startDate + '&enddate=' + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID;
 				console.log(url);
 
 				let xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-							document.getElementById("success").style.display = "flex";
-							document.getElementById("loader").style.display = "none";
+							document.getElementById('success').style.display = 'flex';
+							document.getElementById('loader').style.display = 'none';
 							google.charts.load('current', {packages: ['corechart']});
 	    					google.charts.setOnLoadCallback(drawSheetName);
-	    					document.getElementById("gsheet").style.opacity = "1";
+	    					document.getElementById('gsheet').style.opacity = '1';
 	    					document.getElementById('submit').disabled = false;
-	    					document.getElementById("wrap").style.height = "240px";
+	    					document.getElementById('wrap').style.height = '240px';
 						}
 					else if (this.status == 500) {
-						document.getElementById("error").style.display = "flex";
-						document.getElementById("loader").style.display = "none";
+						document.getElementById('error').style.display = 'flex';
+						document.getElementById('loader').style.display = 'none';
 						document.getElementById('submit').disabled = false;
 					}
 				};
 				
-				xhttp.open("GET", url, true);
-				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhttp.open('GET', url, true);
+				xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 				xhttp.send();
 				console.log(startDate + ' - ' + endDate);
 			}
@@ -346,10 +346,10 @@
 		let inputField = document.querySelectorAll('input[type="date"]');
 
 		inputField.forEach(element => {
-			element.addEventListener("click", function () {
-				document.getElementById("loader").style.display = "none";
-				document.getElementById("success").style.display = "none";
-				document.getElementById("error").style.display = "none";
+			element.addEventListener('click', function () {
+				document.getElementById('loader').style.display = 'none';
+				document.getElementById('success').style.display = 'none';
+				document.getElementById('error').style.display = 'none';
 			})
 		});
 
