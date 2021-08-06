@@ -324,9 +324,13 @@
 
 		picker.on('change:month', (date, calendarIdx) => {
 			console.log('change!!')
-			document.getElementById('submit').removeAttribute('disabled');
+			// document.getElementById('submit').removeAttribute('disabled');
 			document.getElementById("success").style.display = "none";
 			document.getElementById('chart-wrap').style.opacity = '0';
+		});
+
+		picker.on('preselect', (date1, date2) => {
+		    document.getElementById('submit').removeAttribute('disabled');
 		});
 
 		document.getElementById('litepicker').addEventListener('click', (e) => {
