@@ -313,7 +313,7 @@
 			element: document.getElementById('litepicker'),
 			singleMode: false,
 			numberOfMonths: 1,
-			maxDays: 15,
+			maxDays: 30,
 			minDays: 5,
 			numberOfColumns: 1,
 			minDate: mindate,
@@ -384,7 +384,8 @@
 				console.log(viewID);
 				console.log(userID);
 				console.log(journeyID);
-		  		let url = 'https://mta-y2u6oyxxua-ue.a.run.app/?startdate=' + startDate + '&enddate=' + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID;
+		  		// let url = 'https://mta-y2u6oyxxua-ue.a.run.app/?startdate=' + startDate + '&enddate=' + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID;
+		  		let url = 'http://localhost:8000/?startdate=' + startDate + '&enddate=' + endDate + '&viewid=' + viewID + '&userid=' + userID + '&journeyid=' + journeyID;
 				console.log(url);
 
 				let xhttp = new XMLHttpRequest();
@@ -458,9 +459,9 @@
 	    }
 
 	    drawSheet02 = () => {
-			let queryString = encodeURIComponent('SELECT A, B, C, D, E, F LIMIT 50 OFFSET 0');
+			let queryString = encodeURIComponent('SELECT A, B, C, D, E, F, G, H, I, J, K, L, M, N LIMIT 50 OFFSET 0');
 			let query = new google.visualization.Query(
-				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium_bucketed_per&headers=1&tq=' + queryString);
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium_bucketed_sum&headers=1&tq=' + queryString);
 			query.send(handleSheet02res);
 	    }
 
@@ -472,9 +473,9 @@
 	    }
 
 	    drawSheet04 = () => {
-			let queryString = encodeURIComponent('SELECT A, B, C, D, E, F LIMIT 50 OFFSET 0');
+			let queryString = encodeURIComponent('SELECT A, B LIMIT 50 OFFSET 0');
 			let query = new google.visualization.Query(
-				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium_bucketed_sum&headers=1&tq=' + queryString);
+				'https://docs.google.com/spreadsheets/d/1xQG-Heb9hU7GG8TZPdPv3e_dKqoO8DAVznaXNMGVPio/gviz/tq?sheet=touchpoints/medium_bucketed_per&headers=1&tq=' + queryString);
 			query.send(handleSheet04res);
 	    }
 
@@ -502,11 +503,31 @@
 			}
 
 			let data = response.getDataTable();
+			// console.log(data);
+
+			// remove null cols from data
+			let idx = 0;
+
+			for (let el of data.bf) {
+				if (el.label == '') {
+					console.log('empty');
+					// console.log(data.bf.indexOf(el));
+					idx = data.bf.indexOf(el);
+					data.bf.splice(idx, 5);
+					break;
+				}
+			}
+
+			// data.bf.splice(idx, 5);
+			// console.log(idx);
+			// console.log(data.Wf[1].c);
+			console.log(data);
+
 			let options = {
-				title: '% Medium Composition by Journey',
+				title: 'Medium Composition by Journey in Touchpoints',
 				height: ch,
 				legend: { position: 'bottom', maxLines: 3 },
-        		// bar: { groupWidth: '75%' },
+        		bar: { groupWidth: '75%' },
         		isStacked: true
 			}
 			let chart02 = new google.visualization.BarChart(document.getElementById('chart02'));
@@ -520,23 +541,23 @@
 			}
 
 			let data = response.getDataTable();
-			console.log(data.Wf);
+			// console.log(data.Wf);
 
-			data = google.visualization.arrayToDataTable([
-				['Medium', 'average touchpoints', { role: 'style' }],
-				['cpc', data.Wf[0].c[1], 'rgb(51, 102, 204)'],
-				['organic', data.Wf[1].c[1], 'rgb(220, 57, 18)'],
-				['referral', data.Wf[2].c[1], 'rgb(255, 153, 0)'],
-				['direct', data.Wf[3].c[1], 'rgb(16, 150, 24)'],
-				['partner', data.Wf[4].c[1], 'rgb(153, 0, 153)']
-			]);
+			// data = google.visualization.arrayToDataTable([
+			// 	['Medium', 'average touchpoints', { role: 'style' }],
+			// 	['cpc', data.Wf[0].c[1], 'rgb(51, 102, 204)'],
+			// 	['organic', data.Wf[1].c[1], 'rgb(220, 57, 18)'],
+			// 	['referral', data.Wf[2].c[1], 'rgb(255, 153, 0)'],
+			// 	['direct', data.Wf[3].c[1], 'rgb(16, 150, 24)'],
+			// 	['partner', data.Wf[4].c[1], 'rgb(153, 0, 153)']
+			// ]);
 
 			let options = {
 				title: 'Average Touchpoint / Medium',
 				height: ch,
-				legend: 'none',
-				isStacked: true,
-				colors: ['red', 'green']
+				legend: 'none'
+				// isStacked: true
+				// colors: ['red', 'green']
 			}
 			let chart03 = new google.visualization.ColumnChart(document.getElementById('chart03'));
 			chart03.draw(data, options);
@@ -549,14 +570,19 @@
 			}
 
 			let data = response.getDataTable();
+
+			let formatter = new google.visualization.NumberFormat({suffix: '%'});
+			formatter.format(data, 1);
+			
 			// console.log(data);
 			let options = {
-				title: 'Touchpoint Count by Journey / Medium',
+				title: 'Total Touchpoints Needed to Convert by Journey',
 				height: ch,
-				legend: { position: 'bottom', maxLines: 3 },
-				isStacked: true
+				// legend: { position: 'bottom', maxLines: 3 },
+				legend: 'none',
+				isStacked: false
 			}
-			let chart04 = new google.visualization.BarChart(document.getElementById('chart04'));
+			let chart04 = new google.visualization.ColumnChart(document.getElementById('chart04'));
 			chart04.draw(data, options);
 	    }
 
